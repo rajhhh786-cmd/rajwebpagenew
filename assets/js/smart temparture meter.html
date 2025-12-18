@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Thermometer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ================= CSS ================= -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .app {
+      background: #ffffff;
+      width: 380px;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .thermo-card {
+      background: linear-gradient(135deg, #fdfbfb, #ebedee);
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    .label {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      margin: 15px 0;
+    }
+
+    .temperature {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 10px 0;
+    }
+
+    .status {
+      font-weight: 600;
+      padding: 8px;
+      border-radius: 10px;
+    }
+
+    /* STATUS COLORS */
+    .cold {
+      background: #74ebd5;
+      color: #004d40;
+    }
+
+    .normal {
+      background: #a8ff78;
+      color: #2e7d32;
+    }
+
+    .hot {
+      background: #ff9a9e;
+      color: #b71c1c;
+    }
+
+    /* Weather Table */
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      color: #fff;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background: rgba(0,0,0,0.2);
+      font-size: 1rem;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .emoji {
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+    <h1>🌡️ Smart Thermometer</h1>
+    <p class="subtitle">Real-time temperature monitoring</p>
+
+    <div class="thermo-card">
+      <p class="label">Temperature (°C)</p>
+
+      <input 
+        type="range" 
+        min="-10" 
+        max="50" 
+        value="20" 
+        id="tempRange"
+      >
+
+      <div id="temperature" class="temperature">20°C</div>
+      <div id="status" class="status normal">Normal</div>
+    </div>
+
+    <!-- Fake Weather Data Table -->
+    <table>
+      <tr>
+        <th>Day</th>
+        <th>Weather</th>
+        <th>Temp</th>
+      </tr>
+      <tr>
+        <td>Mon</td>
+        <td class="emoji">☀️ Sunny</td>
+        <td>25°C</td>
+      </tr>
+      <tr>
+        <td>Tue</td>
+        <td class="emoji">🌤 Partly Cloudy</td>
+        <td>22°C</td>
+      </tr>
+      <tr>
+        <td>Wed</td>
+        <td class="emoji">☁️ Cloudy</td>
+        <td>18°C</td>
+      </tr>
+      <tr>
+        <td>Thu</td>
+        <td class="emoji">🌧 Rainy</td>
+        <td>16°C</td>
+      </tr>
+      <tr>
+        <td>Fri</td>
+        <td class="emoji">⛈ Thunderstorm</td>
+        <td>20°C</td>
+      </tr>
+      <tr>
+        <td>Sat</td>
+        <td class="emoji">❄️ Snow</td>
+        <td>-2°C</td>
+      </tr>
+      <tr>
+        <td>Sun</td>
+        <td class="emoji">🌈 Mixed</td>
+        <td>21°C</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ================= JS ================= -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const range = document.getElementById("tempRange");
+      const temperature = document.getElementById("temperature");
+      const status = document.getElementById("status");
+
+      function updateThermometer() {
+        const value = Number(range.value);
+        temperature.textContent = value + "°C";
+
+        if (value < 10) {
+          status.textContent = "Cold";
+          status.className = "status cold";
+        } 
+        else if (value <= 30) {
+          status.textContent = "Normal";
+          status.className = "status normal";
+        } 
+        else {
+          status.textContent = "Hot";
+          status.className = "status hot";
+        }
+      }
+
+      range.addEventListener("input", updateThermometer);
+      updateThermometer(); // initial load
+    });
+  </script>
+
+</body>
+</html>
